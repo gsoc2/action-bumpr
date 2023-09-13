@@ -1,20 +1,37 @@
-name: 'TODO: write action name'
-description: 'TODO: write description'
-author: 'gsoc2' # TODO: write your name.
+name: 'bumpr - Bump version when merging Pull Request with specific labels'
+description: 'Bump version when merging Pull Request with specific labels (bump:major,bump:minor,bump:patch)'
+author: 'gsoc2'
 inputs:
+  default_bump_level:
+    description: "Default bump level if labels are not attached [major,minor,patch]. Do nothing if it's empty"
+    required: false
+  dry_run:
+    description: "Do not actually tag next version if it's true"
+    required: false
   github_token:
-    description: 'GITHUB_TOKEN'
+    description: 'GITHUB_TOKEN to list pull requests and create tags'
     default: '${{ github.token }}'
-  repo:
-    description: 'target GitHub repository. e.g. reviewdog/reviewdog'
-    default: '${{ github.repository }}'
     required: true
+  tag_as_user:
+    description: "Name to use when creating tags"
+    required: false
+  tag_as_email:
+    description: "Email address to use when creating tags"
+    required: false
+outputs:
+  current_version:
+    description: "current version"
+  next_version:
+    description: "next version"
+  skip:
+    description: "True if release is skipped. e.g. No labels attached to PR."
+  message:
+    description: "Tag message"
 runs:
   using: 'docker'
   image: 'Dockerfile'
 
 # Ref: https://gsoc2.github.io/github-action-brandings/
-# TODO: update branding.
 branding:
-  icon: 'activity'
-  color: 'white'
+  icon: 'corner-right-up'
+  color: 'gray-dark'
